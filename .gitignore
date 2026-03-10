@@ -1,0 +1,22 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environment
+venv/
+.venv/
+
+# Packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Environment files
+.env
+.env.*
+.repo-guard-cache.json
+
+# macOS
+.DS_Store
