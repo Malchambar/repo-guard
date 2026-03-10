@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+while [[ -L "$SCRIPT_PATH" ]]; do
+  DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
+  SCRIPT_PATH="$(readlink "$SCRIPT_PATH")"
+  [[ "$SCRIPT_PATH" != /* ]] && SCRIPT_PATH="$DIR/$SCRIPT_PATH"
+done
+ROOT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
+PYTHON_BIN="$ROOT_DIR/venv/bin/python"
 
-if [[ -x "$ROOT_DIR/venv/bin/python" ]]; then
-  PYTHON_BIN="$ROOT_DIR/venv/bin/python"
-elif command -v python3 >/dev/null 2>&1; then
-  PYTHON_BIN="$(command -v python3)"
-else
-  echo "[repo-guard] Python not found. Create venv or install python3." >&2
+if [[ ! -x "$PYTHON_BIN" ]]; then
+  echo "[repo-guard] Missing $PYTHON_BIN. Create the project-local venv first." >&2
   exit 1
 fi
 
