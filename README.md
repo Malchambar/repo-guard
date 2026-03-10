@@ -26,9 +26,22 @@ python3.12 -m venv venv
 venv/bin/pip install -e ".[dev]"
 ```
 
+The editable install above creates the console script:
+
+```bash
+venv/bin/repo-guard --help
+```
+
 ## Usage
 
 ```bash
+# Option A (recommended): stable repo-root launcher
+./repo-guard check
+./repo-guard doctor
+```
+
+```bash
+# Option B: generated console script from pip install -e
 # First-time setup: creates .repo-guard.toml (if missing) and runs full scan
 venv/bin/repo-guard init
 
@@ -45,9 +58,8 @@ venv/bin/repo-guard doctor
 venv/bin/repo-guard install-hook
 ```
 
-You can also run it as a module:
-
 ```bash
+# Module entrypoint
 venv/bin/python -m repo_guard check
 ```
 
